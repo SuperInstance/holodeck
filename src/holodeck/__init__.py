@@ -11,7 +11,7 @@ Architecture follows the exocortex roadmap Phase 3:
   - Results feed into the distillation loop's weakness map
 """
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 from holodeck.simulator import HolodeckSimulator, SimulationResult
 from holodeck.evaluator import EvalResult, Evaluator

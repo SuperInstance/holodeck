@@ -28,10 +28,13 @@ class TestHolodeckSimulator:
         task_types = {r.task_type for r in results}
         assert len(task_types) >= 3  # At least 3 different types
 
-    def test_dry_run_all_5_types(self, simulator):
-        results = simulator.run_session(tasks=5, seed_offset=0)
+    def test_dry_run_all_6_types(self, simulator):
+        results = simulator.run_session(tasks=6, seed_offset=0)
         task_types = {r.task_type for r in results}
-        assert task_types == {"engine_diagnosis", "route_planning", "fish_id", "material_selection", "emergency_response"}
+        assert task_types == {
+            "engine_diagnosis", "route_planning", "fish_id",
+            "material_selection", "emergency_response", "radio_communication",
+        }
 
     def test_dry_run_difficulty_escalation(self, simulator):
         results = simulator.run_session(tasks=9, seed_offset=0)
@@ -42,8 +45,8 @@ class TestHolodeckSimulator:
         assert difficulties[8] == "hard"
 
     def test_dry_run_no_crash_on_all_task_types(self, simulator):
-        """Must run across all 5 types without crashing."""
-        for tt in ["engine_diagnosis", "route_planning", "fish_id", "material_selection", "emergency_response"]:
+        """Must run across all 6 types without crashing."""
+        for tt in ["engine_diagnosis", "route_planning", "fish_id", "material_selection", "emergency_response", "radio_communication"]:
             result = simulator.run_single(tt, "medium", seed=42)
             assert result.task_type == tt
             assert result.eval_result.composite >= 0

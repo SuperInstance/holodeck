@@ -34,6 +34,7 @@ The holodeck is a lightweight Python-based simulation training environment where
 | **Fish Identification** | Given characteristics, identify the species | Marine biology, classification |
 | **Material Selection** | Given build requirements, choose materials | Engineering, tradeoff analysis |
 | **Emergency Response** | Given situation, choose correct protocol | Safety, decision-making under pressure |
+| **Radio Communication** | Given scenario, describe VHF procedure | Communications, distress protocols, DSC |
 
 Each task type has:
 - **Scenario generator** — produces varied instances with randomized parameters

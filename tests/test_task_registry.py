@@ -4,13 +4,14 @@ from holodeck.tasks import TASK_REGISTRY, TASK_NAMES, DIFFICULTIES
 
 
 class TestTaskRegistry:
-    def test_all_five_types_registered(self):
+    def test_all_six_types_registered(self):
         expected = {
             "engine_diagnosis",
             "route_planning",
             "fish_id",
             "material_selection",
             "emergency_response",
+            "radio_communication",
         }
         assert set(TASK_REGISTRY.keys()) == expected
 

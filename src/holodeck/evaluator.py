@@ -75,7 +75,7 @@ class Evaluator:
     DEFAULT_THRESHOLD = 0.45
 
     def __init__(self, pass_threshold: float | None = None):
-        self.pass_threshold = pass_threshold or self.DEFAULT_THRESHOLD
+        self.pass_threshold = self.DEFAULT_THRESHOLD if pass_threshold is None else pass_threshold
 
     def evaluate(
         self,

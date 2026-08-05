@@ -11,6 +11,7 @@ from holodeck.tasks import (
     emergency_response,
     fish_id,
     material_selection,
+    radio_communication,
     route_planning,
 )
 
@@ -21,6 +22,7 @@ TASK_REGISTRY = {
     "fish_id": fish_id,
     "material_selection": material_selection,
     "emergency_response": emergency_response,
+    "radio_communication": radio_communication,
 }
 
 # Display names
@@ -30,6 +32,7 @@ TASK_NAMES = {
     "fish_id": "Fish Identification",
     "material_selection": "Material Selection",
     "emergency_response": "Emergency Response",
+    "radio_communication": "Radio Communication",
 }
 
 # Difficulty levels in order
@@ -44,4 +47,5 @@ __all__ = [
     "fish_id",
     "material_selection",
     "emergency_response",
+    "radio_communication",
 ]

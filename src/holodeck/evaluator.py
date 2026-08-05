@@ -119,7 +119,9 @@ class Evaluator:
         reasoning = self._score_reasoning(response)
 
         # ─── Completeness ─────────────────────────────────
-        points = max_points or len(expected_keywords)
+        # `is None` check, not `or` — max_points=0 is a legitimate override
+        # (same falsy-zero class as the pass_threshold=0.0 bug above).
+        points = max_points if max_points is not None else len(expected_keywords)
         completeness = self._score_completeness(response, scenario, task_type, points)
 
         # ─── Composite ────────────────────────────────────

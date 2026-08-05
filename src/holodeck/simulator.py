@@ -424,7 +424,9 @@ class HolodeckSimulator:
 
     def save_session(self, results: list[SimulationResult] | None = None) -> Path:
         """Save session results to a JSONL file."""
-        results = results or self.session_results
+        # `is None` check, not `or` — an explicit results=[] must stay empty,
+        # not silently fall back to self.session_results (falsy-zero class bug).
+        results = results if results is not None else self.session_results
         if not results:
             return SESSION_DIR / "empty.jsonl"
 

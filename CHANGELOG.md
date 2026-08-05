@@ -15,6 +15,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   very long inputs, boundary thresholds, case insensitivity, and helper functions.
 - **Bug fix in Evaluator** — `pass_threshold=0.0` was treated as falsy and silently replaced
   with the default (0.45). Now correctly handled via `is None` check.
+- **Two more falsy-zero/falsy-empty fixes, same class as above** (found during a full audit
+  for the pattern):
+  - `Evaluator.evaluate(max_points=0)` was silently discarded via `or` in favor of
+    `len(expected_keywords)`. Fixed via `is None` check. Note: `max_points` is not yet
+    consumed inside `_score_completeness` — the fix is defensively correct but currently
+    has no observable effect on scoring until that wiring is added.
+  - `HolodeckSimulator.save_session(results=[])` was silently discarded via `or` in favor
+    of `self.session_results`, so an intentionally empty session could get overwritten
+    with stale results. Fixed via `is None` check; regression test added.
 
 ### Changed
 - Task registry now includes 6 task types (was 5).

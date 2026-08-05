@@ -63,6 +63,15 @@ class TestHolodeckSimulator:
             assert "task_type" in data
             assert "eval" in data
 
+    def test_save_session_explicit_empty_list_stays_empty(self, simulator, tmp_path, monkeypatch):
+        """results=[] must save as empty, not silently fall back to session_results
+        (falsy-zero class bug: `or` treats [] the same as None)."""
+        monkeypatch.setattr("holodeck.simulator.SESSION_DIR", tmp_path)
+        simulator.run_session(tasks=3, seed_offset=0)  # populates self.session_results
+        path = simulator.save_session(results=[])
+        assert path.name == "empty.jsonl"
+        assert not path.exists()
+
     def test_mock_response_returns_text(self):
         scenario = {
             "prompt": "test",

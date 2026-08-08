@@ -47,7 +47,7 @@ Each task type has:
 # Install
 pip install -e ".[dev]"
 
-# Run 10 tasks across all 5 types
+# Run 10 tasks across all 6 types
 python -m holodeck.simulator --tasks 10
 
 # Run a specific task type

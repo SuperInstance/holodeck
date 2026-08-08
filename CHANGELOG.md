@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- **`mock_response()` reproducibility bug** — Used Python's built-in `hash()` to
+  seed the random number generator in dry-run mode. Since Python randomizes string
+  hashes per-process (`PYTHONHASHSEED`), the same scenario would produce different
+  mock responses across runs. Replaced with `hashlib.md5` for deterministic seeding.
+- **`_score_completeness` ignored `max_points` parameter** — The parameter was
+  accepted but never used in the scoring logic (acknowledged in previous CHANGELOG).
+  Now wired in: keyword coverage relative to `max_points` contributes 50% of the
+  completeness score, blended with the existing length/structure component.
+- **README quick start said "5 types" instead of 6** — Corrected after Radio
+  Communication task was added.
+
+### Changed
+- **CI matrix** expanded to include Python 3.13 and 3.14.
+- **7 new tests** added covering mock_response determinism, log_failure direct
+  test, _score_completeness with max_points, call_ollama fallback mock, and
+  compile_reflex field validation.
+
 ### Added
 - **Radio Communication task type** — new 6th task covering VHF protocol, distress calls
   (Mayday, Pan-Pan, Sécurité), Digital Selective Calling (DSC), and ITU phonetic alphabet.

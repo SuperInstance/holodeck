@@ -149,7 +149,11 @@ def mock_response(scenario: dict[str, Any]) -> str:
     # Include ~60% of keywords to simulate a mediocre response
     import random
 
-    rng = random.Random(hash(scenario["prompt"]) % 2**32)
+    # Use hashlib for a deterministic seed — Python's hash() is randomized
+    # per-process via PYTHONHASHSEED, which would break dry-run reproducibility.
+    prompt_bytes = scenario["prompt"].encode("utf-8")
+    deterministic_seed = int(hashlib.md5(prompt_bytes).hexdigest(), 16) % 2**32
+    rng = random.Random(deterministic_seed)
     included = rng.sample(keywords, max(1, len(keywords) * 3 // 5))
     return (
         f"Based on the symptoms described, I believe the issue is: {correct_answer[:150]}. "

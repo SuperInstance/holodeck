@@ -213,7 +213,12 @@ class Evaluator:
         task_type: str,
         max_points: int,
     ) -> float:
-        """Score completeness: all parts of the problem addressed."""
+        """Score completeness: all parts of the problem addressed.
+
+        max_points represents the number of distinct points a complete
+        answer should cover. We combine this with structural and length
+        signals to produce a holistic completeness score.
+        """
         sents = _sentences(text)
         words = text.split()
 
@@ -233,7 +238,20 @@ class Evaluator:
         # Diminishing returns after ~10 sentences
         length_score = min(0.7, len(sents) / 10)
 
-        score = min(1.0, length_score + structure_bonus)
+        # Keyword-coverage component: if the response addresses more of the
+        # max_points expected points (approximated by keywords found in text),
+        # boost the score. This rewards answers that cover more ground.
+        response_lower = text.lower()
+        expected_kws = scenario.get("expected_keywords", [])
+        if expected_kws and max_points > 0:
+            found = sum(1 for kw in expected_kws if kw.lower() in response_lower)
+            coverage = min(1.0, found / max_points)
+        else:
+            coverage = 0.0
+
+        # Blend: 50% length/structure, 50% keyword coverage
+        blended = (length_score + structure_bonus) * 0.5 + coverage * 0.5
+        score = min(1.0, blended)
         return score
 
 
